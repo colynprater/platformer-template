@@ -14,6 +14,36 @@ var wrapper = document.getElementById('wrapper')
 var canvas;
 var ctx;
 
+
+class Collidable {
+
+  constructor(options) {
+    this.x      = options.x || 0;
+    this.y      = options.y || 0;
+    this.height = options.height || 0;
+    this.width  = options.width  || 0;
+    this.colour  = options.colour  || 'white';
+  }
+
+  top() {
+
+  }
+
+  bottom() {
+
+  }
+
+  left() {
+
+  }
+
+  right() {
+
+  }
+}
+
+var floor = new Collidable({});
+
 function handleMouseClick(evt) {
 
 }
@@ -21,6 +51,8 @@ function handleMouseClick(evt) {
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
   ctx = canvas.getContext('2d');
+
+  initializeFloor();
 
   var framesPerSecond = 60;
 
@@ -35,10 +67,20 @@ window.onload = function() {
 function moveEverything() {
 }
 
-
-
 function drawEverything() {
+  drawFloor();
+}
 
+function initializeFloor() {
+  floor.x = 0;
+  floor.y = (canvas.height / 6) * 5;
+  floor.width = canvas.width;
+  floor.height = canvas.height / 6;
+  floor.colour = 'pink';
+}
+
+function drawFloor() {
+  colourRect(floor.x, floor.y, floor.width, floor.height, floor.colour)
 }
 
 </script>
