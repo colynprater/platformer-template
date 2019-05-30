@@ -1,0 +1,61 @@
+<html>
+
+<body>
+  <div id="wrapper">
+    <canvas id="gameCanvas" width="1000", height="600"></canvas>
+  </div>
+
+</body>
+
+<script src="js/utils.js"></script>
+<script>
+var wrapper = document.getElementById('wrapper')
+
+var canvas;
+var ctx;
+
+function handleMouseClick(evt) {
+
+}
+
+window.onload = function() {
+  canvas = document.getElementById('gameCanvas');
+  ctx = canvas.getContext('2d');
+
+  var framesPerSecond = 60;
+
+  canvas.addEventListener('mousedown', handleMouseClick)
+
+  setInterval(function() {
+    moveEverything();
+    drawEverything();
+  }, 1000/framesPerSecond)
+}
+
+function moveEverything() {
+}
+
+
+
+function drawEverything() {
+
+}
+
+</script>
+
+<style>
+  body {
+    color: white;
+    text-align: center;
+    background-color: black;
+  }
+  canvas {
+    margin: 12px;
+    border-style: solid;
+    border-color: white;
+  }
+  #wrapper {
+
+  }
+</style>
+</html>
