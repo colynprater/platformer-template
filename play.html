@@ -11,6 +11,8 @@
 <script>
 const PLAYER_WIDTH  = 20;
 const PLAYER_HEIGHT = 35;
+const PLAYER_MAX_SPEED = 6;
+const PLAYER_SLOW_RATE = 0.2;
 const GRAVITY = 10;
 
 var wrapper = document.getElementById('wrapper')
@@ -24,18 +26,26 @@ class Sprite {
   constructor(opts) {
     this.x        = opts.x
     this.y        = opts.y
-    this.facing   = opts.facing   || 0
+    this.direction   = opts.direction || 0 // 0 is left, 1 is right
     this.width    = opts.width    || 10
     this.height   = opts.height   || 10
   }
 
+  facingLeft() {
+    return this.direction == 0;
+  }
+
+  facingRight() {
+    return this.direction == 1;
+  }
 }
 
 class Player extends Sprite {
   constructor(opts) {
     super(opts)
     this.momentum = opts.momentum || 0
-    this.vel      = opts.vel      || 0
+    this.velocity      = opts.velocity      || 0
+    this.walking  = opts.walking  || false
   }
 
   // functions
@@ -51,15 +61,10 @@ class Block { // does this need to be a class?
     this.colour  = options.colour  || 'white';
   }
 
-
 }
 
 var floor = new Block({});
 var player = new Player({x: 0, y: 0});
-
-function handleMouseClick(evt) {
-
-}
 
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
@@ -70,20 +75,73 @@ window.onload = function() {
 
   var framesPerSecond = 60;
 
-  canvas.addEventListener('mousedown', handleMouseClick)
+  document.addEventListener('keydown', keyDownListener);
+  document.addEventListener('keyup', keyUpListener);
 
   setInterval(function() {
-    moveEverything();
+    update();
     drawEverything();
   }, 1000/framesPerSecond)
 }
 
-function moveEverything() {
+function keyUpListener(evt) {
+  var keyCode = evt.keyCode;
+
+  if (keyCode == 32) {
+    // car.idle = true;
+  }
+  if (keyCode == 37) {
+    player.walking = false;
+  }
+  if (keyCode == 39) {
+    player.walking = false;
+  }
+}
+
+function keyDownListener(evt) {
+  var keyCode = evt.keyCode;
+
+  if (keyCode == 32) {
+    // TODO jump
+  }
+  if (keyCode == 37) { // LEFT
+    player.walking = true;
+
+    if (player.facingLeft() && player.momentum > 0) {
+      player.momentum -= 3;
+    } else if (player.facingLeft()) {
+      player.direction = 1;
+      increasePlayerMomentum();
+    } else {
+      player.direction = 1;
+      increasePlayerMomentum();
+    }
+  }
+
+  if (keyCode == 39) { // RIGHT
+    player.walking = true;
+
+    if (player.facingRight() && player.momentum > 0) {
+      player.momentum -= 3;
+    } else if (player.facingRight()) {
+      player.direction = 0;
+      increasePlayerMomentum();
+    } else {
+      player.direction = 0;
+      increasePlayerMomentum();
+    }
+  }
+}
+
+function update() {
+  decreasePlayerMomentum();
+  movePlayer();
 }
 
 function drawEverything() {
-  drawFloor();
+  colourRect(0, 0, canvas.width, canvas.height, 'black') // Background
   drawPlayer();
+  drawFloor();
 }
 
 function initializeFloor() {
@@ -92,6 +150,30 @@ function initializeFloor() {
   floor.width = canvas.width;
   floor.height = canvas.height / 6;
   floor.colour = 'pink';
+}
+
+function movePlayer() { // TODO Refactor with a ternary
+  if (player.momentum) {
+    if (player.facingLeft()) {
+      player.x += player.momentum;
+    } else if (player.facingRight()) {
+      player.x -= player.momentum;
+    }
+  }
+}
+
+function decreasePlayerMomentum() {
+  if (!player.walking && player.momentum >= 0) {
+    player.momentum -= PLAYER_SLOW_RATE;
+
+    if (player.momentum < 0) player.momentum = 0;
+  }
+}
+
+function increasePlayerMomentum() {
+  if (player.walking && player.momentum <= PLAYER_MAX_SPEED) {
+    player.momentum += 1; // TODO make accel const
+  }
 }
 
 function initializePlayer() {
@@ -105,8 +187,8 @@ function initializePlayer() {
 function drawFloor() {
   colourRect(floor.x, floor.y, floor.width, floor.height, floor.colour)
 }
-
 function drawPlayer() {
+
   colourRect(
     player.x - player.width / 2,
     player.y - player.height / 2,
@@ -115,7 +197,7 @@ function drawPlayer() {
     player.colour
   )
 
-  drawDebugDots(player)
+  // drawDebugDots(player)
 }
 
 </script>
