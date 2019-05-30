@@ -106,30 +106,26 @@ function keyDownListener(evt) {
   }
   if (keyCode == 37) { // LEFT
     player.walking = true;
-
-    if (player.facingLeft() && player.momentum > 0) {
-      player.momentum -= 3;
-    } else if (player.facingLeft()) {
-      player.direction = 1;
-      increasePlayerMomentum();
-    } else {
-      player.direction = 1;
-      increasePlayerMomentum();
-    }
+    reversePlayerDirectionAndMomentum(keyCode)
   }
 
   if (keyCode == 39) { // RIGHT
     player.walking = true;
+    reversePlayerDirectionAndMomentum(keyCode)
+  }
+}
 
-    if (player.facingRight() && player.momentum > 0) {
-      player.momentum -= 3;
-    } else if (player.facingRight()) {
-      player.direction = 0;
-      increasePlayerMomentum();
-    } else {
-      player.direction = 0;
-      increasePlayerMomentum();
-    }
+function reversePlayerDirectionAndMomentum(keyCode) {
+  var desiredDirection = keyCode == 39 ? 0 : 1;
+  var needToTurnAround =
+    (keyCode == 39 && player.facingRight()) ||
+    (keyCode == 37 && player.facingLeft())
+
+  if (needToTurnAround && player.momentum > 0) {
+    player.momentum -= 4;
+  } else {
+    player.direction = desiredDirection;
+    increasePlayerMomentum();
   }
 }
 
