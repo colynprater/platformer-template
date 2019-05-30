@@ -9,8 +9,9 @@
 
 <script src="js/utils.js"></script>
 <script>
-const PLAYER_WIDTH  = 15;
-const PLAYER_HEIGHT = 25;
+const PLAYER_WIDTH  = 20;
+const PLAYER_HEIGHT = 35;
+const GRAVITY = 10;
 
 var wrapper = document.getElementById('wrapper')
 
@@ -28,7 +29,6 @@ class Sprite {
     this.height   = opts.height   || 10
   }
 
-  // functions
 }
 
 class Player extends Sprite {
@@ -41,7 +41,7 @@ class Player extends Sprite {
   // functions
 }
 
-class Collidable {
+class Block { // does this need to be a class?
 
   constructor(options) {
     this.x      = options.x || 0;
@@ -51,24 +51,10 @@ class Collidable {
     this.colour  = options.colour  || 'white';
   }
 
-  top() {
 
-  }
-
-  bottom() {
-
-  }
-
-  left() {
-
-  }
-
-  right() {
-
-  }
 }
 
-var floor = new Collidable({});
+var floor = new Block({});
 var player = new Player({x: 0, y: 0});
 
 function handleMouseClick(evt) {
@@ -121,8 +107,15 @@ function drawFloor() {
 }
 
 function drawPlayer() {
-  console.log(player)
-  colourRect(player.x, player.y, player.width, player.height, player.colour)
+  colourRect(
+    player.x - player.width / 2,
+    player.y - player.height / 2,
+    player.width,
+    player.height,
+    player.colour
+  )
+
+  drawDebugDots(player)
 }
 
 </script>
