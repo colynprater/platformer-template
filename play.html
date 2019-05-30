@@ -9,11 +9,37 @@
 
 <script src="js/utils.js"></script>
 <script>
+const PLAYER_WIDTH  = 15;
+const PLAYER_HEIGHT = 25;
+
 var wrapper = document.getElementById('wrapper')
 
 var canvas;
 var ctx;
 
+var player;
+
+class Sprite {
+  constructor(opts) {
+    this.x        = opts.x
+    this.y        = opts.y
+    this.facing   = opts.facing   || 0
+    this.width    = opts.width    || 10
+    this.height   = opts.height   || 10
+  }
+
+  // functions
+}
+
+class Player extends Sprite {
+  constructor(opts) {
+    super(opts)
+    this.momentum = opts.momentum || 0
+    this.vel      = opts.vel      || 0
+  }
+
+  // functions
+}
 
 class Collidable {
 
@@ -43,6 +69,7 @@ class Collidable {
 }
 
 var floor = new Collidable({});
+var player = new Player({x: 0, y: 0});
 
 function handleMouseClick(evt) {
 
@@ -53,6 +80,7 @@ window.onload = function() {
   ctx = canvas.getContext('2d');
 
   initializeFloor();
+  initializePlayer();
 
   var framesPerSecond = 60;
 
@@ -69,6 +97,7 @@ function moveEverything() {
 
 function drawEverything() {
   drawFloor();
+  drawPlayer();
 }
 
 function initializeFloor() {
@@ -79,8 +108,21 @@ function initializeFloor() {
   floor.colour = 'pink';
 }
 
+function initializePlayer() {
+  player.x = canvas.width / 2;
+  player.y = (canvas.height / 6) * 4;
+  player.width = PLAYER_WIDTH;
+  player.height = PLAYER_HEIGHT;
+  player.colour = 'blue';
+}
+
 function drawFloor() {
   colourRect(floor.x, floor.y, floor.width, floor.height, floor.colour)
+}
+
+function drawPlayer() {
+  console.log(player)
+  colourRect(player.x, player.y, player.width, player.height, player.colour)
 }
 
 </script>
