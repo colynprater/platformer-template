@@ -122,7 +122,7 @@ function reversePlayerDirectionAndMomentum(keyCode) {
     (keyCode == 37 && player.facingLeft())
 
   if (needToTurnAround && player.momentum > 0) {
-    player.momentum -= 4;
+    player.momentum -= (PLAYER_MAX_SPEED - PLAYER_MAX_SPEED / 3);
   } else {
     player.direction = desiredDirection;
     increasePlayerMomentum();
@@ -148,13 +148,9 @@ function initializeFloor() {
   floor.colour = 'pink';
 }
 
-function movePlayer() { // TODO Refactor with a ternary
+function movePlayer() {
   if (player.momentum) {
-    if (player.facingLeft()) {
-      player.x += player.momentum;
-    } else if (player.facingRight()) {
-      player.x -= player.momentum;
-    }
+    player.x += player.facingLeft() ? player.momentum : -player.momentum;
   }
 }
 
