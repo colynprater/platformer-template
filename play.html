@@ -7,13 +7,14 @@
 
 </body>
 
+<script src="js/resolver.js"></script>
 <script src="js/utils.js"></script>
 <script>
 const PLAYER_WIDTH  = 20;
 const PLAYER_HEIGHT = 35;
-const PLAYER_MAX_SPEED = 6;
-const PLAYER_SLOW_RATE = 0.2;
-const GRAVITY = 10;
+const PLAYER_MAX_SPEED  = 6;
+const PLAYER_SLOW_RATE  = 0.2;
+const TERMINAL_VELOCITY = 25;
 
 var wrapper = document.getElementById('wrapper')
 
@@ -24,11 +25,11 @@ var player;
 
 class Sprite {
   constructor(opts) {
-    this.x        = opts.x
-    this.y        = opts.y
-    this.direction   = opts.direction || 0 // 0 is left, 1 is right
-    this.width    = opts.width    || 10
-    this.height   = opts.height   || 10
+    this.x         = opts.x
+    this.y         = opts.y
+    this.direction = opts.direction || 0 // 0 is left, 1 is right
+    this.width     = opts.width    || 10
+    this.height    = opts.height   || 10
   }
 
   facingLeft() {
@@ -44,8 +45,10 @@ class Player extends Sprite {
   constructor(opts) {
     super(opts)
     this.momentum = opts.momentum || 0
-    this.velocity      = opts.velocity      || 0
+    this.velocity = opts.velocity || 0
+    this.plummet  = opts.plummet  || 3
     this.walking  = opts.walking  || false
+    this.grounded = false
   }
 
   // functions
@@ -87,9 +90,10 @@ window.onload = function() {
 function keyUpListener(evt) {
   var keyCode = evt.keyCode;
 
-  if (keyCode == 32) {
-    // car.idle = true;
-  }
+  // if (keyCode == 32) {
+
+  // }
+
   if (keyCode == 37) {
     player.walking = false;
   }
@@ -132,6 +136,8 @@ function reversePlayerDirectionAndMomentum(keyCode) {
 function update() {
   decreasePlayerMomentum();
   movePlayer();
+  increasePlayerPlummet();
+  groundPlayer();
 }
 
 function drawEverything() {
@@ -152,6 +158,24 @@ function movePlayer() {
   if (player.momentum) {
     player.x += player.facingLeft() ? player.momentum : -player.momentum;
   }
+
+  if (!player.grounded) {
+    player.y += player.plummet - player.velocity; // TODO implement velocity countdown
+  }
+}
+
+function increasePlayerPlummet() { // CALL
+  if (!player.grounded && player.plummet <= TERMINAL_VELOCITY) player.plummet++;
+}
+
+function groundPlayer() {
+  // TODO extend this to all Collidables
+  // (make the floor a collidable, add to an array: collidables, loop through them)
+  if (Resolver.bottom(player) > floor.y) {
+    player.y = floor.y - player.height / 2;
+    player.plummet = 0;
+    player.grounded = true;
+  }
 }
 
 function decreasePlayerMomentum() {
@@ -170,7 +194,7 @@ function increasePlayerMomentum() {
 
 function initializePlayer() {
   player.x = canvas.width / 2;
-  player.y = (canvas.height / 6) * 4;
+  player.y = (canvas.height / 6) * 1;
   player.width = PLAYER_WIDTH;
   player.height = PLAYER_HEIGHT;
   player.colour = 'blue';
@@ -189,7 +213,7 @@ function drawPlayer() {
     player.colour
   )
 
-  // drawDebugDots(player)
+  drawDebugDots(player)
 }
 
 </script>
