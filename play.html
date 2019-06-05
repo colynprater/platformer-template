@@ -7,6 +7,7 @@
 
 </body>
 
+<script src="js/models.js"></script>
 <script src="js/resolver.js"></script>
 <script src="js/utils.js"></script>
 <script>
@@ -23,50 +24,6 @@ var ctx;
 
 var player;
 
-class Sprite {
-  constructor(opts) {
-    this.x         = opts.x
-    this.y         = opts.y
-    this.direction = opts.direction || 0 // 0 is left, 1 is right
-    this.width     = opts.width    || 10
-    this.height    = opts.height   || 10
-  }
-
-  facingLeft() {
-    return this.direction == 0;
-  }
-
-  facingRight() {
-    return this.direction == 1;
-  }
-}
-
-class Player extends Sprite {
-  constructor(opts) {
-    super(opts)
-    this.momentum = opts.momentum || 0
-    this.velocity = opts.velocity || 0
-    this.plummet  = opts.plummet  || 3
-    this.walking  = opts.walking  || false
-    this.grounded = false
-  }
-
-  // functions
-}
-
-class Collidable { // does this need to be a class?
-
-  constructor(options) {
-    this.x      = options.x || 0;
-    this.y      = options.y || 0;
-    this.height = options.height || 0;
-    this.width  = options.width  || 0;
-    this.colour  = options.colour  || 'white';
-  }
-
-}
-
-var floor = new Collidable({});
 var player = new Player({x: 0, y: 0});
 var collidables = [];
 
@@ -74,8 +31,8 @@ window.onload = function() {
   canvas = document.getElementById('gameCanvas');
   ctx = canvas.getContext('2d');
 
-  initializeFloor();
-  initializePlayer();
+  initFloor();
+  initPlayer();
 
   var framesPerSecond = 60;
 
@@ -147,14 +104,22 @@ function drawEverything() {
   drawCollidables();
 }
 
-function initializeFloor() {
-  collidables.push({
-    x: 0,
-    y: (canvas.height / 6) * 5,
-    width: canvas.width,
-    height: canvas.height / 6,
+function initFloor() {
+  collidables.push(new Collidable({
+    x: canvas.width,
+    y: canvas.height,
+    width: canvas.width * 2,
+    height: (canvas.height / 6),
     colour: 'pink'
-  })
+  }))
+
+  collidables.push(new Collidable({
+    x: canvas.width / 2,
+    y: (canvas.height / 6) * 4,
+    width: 100,
+    height: 50,
+    colour: 'green'
+  }))
 }
 
 function movePlayer() {
@@ -173,8 +138,10 @@ function increasePlayerPlummet() {
 
 function groundPlayer() {
   collidables.forEach((collidable) => {
-    if (Resolver.bottom(player) > collidable.y) {
-      player.y = collidable.y - player.height / 2;
+    var playerIsOnBlock = Resolver.bottom(player) > collidable.y
+
+    if (playerIsOnBlock) {
+      player.y = Resolver.top(collidable) - player.height / 2;
       player.plummet = 0;
       player.grounded = true;
     }
@@ -195,7 +162,7 @@ function increasePlayerMomentum() {
   }
 }
 
-function initializePlayer() {
+function initPlayer() {
   player.x = canvas.width / 2;
   player.y = (canvas.height / 6) * 1;
   player.width = PLAYER_WIDTH;
@@ -206,12 +173,13 @@ function initializePlayer() {
 function drawCollidables() {
   collidables.forEach((collidable) => {
     colourRect(
-      collidable.x,
-      collidable.y,
+      collidable.x - collidable.width / 2,
+      collidable.y - collidable.height / 2,
       collidable.width,
       collidable.height,
       collidable.colour
     )
+    drawDebugDots(collidable)
   })
 }
 function drawPlayer() {
