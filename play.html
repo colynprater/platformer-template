@@ -96,6 +96,7 @@ function update() {
   movePlayer();
   increasePlayerPlummet();
   groundPlayer();
+  dropPlayer();
 }
 
 function drawEverything() {
@@ -146,8 +147,9 @@ function groundPlayer() {
   }
 }
 
-// function dropPlayer() {
-// }
+function dropPlayer() {
+  if (!player.blockAtPlayerBottom(collidables)) player.grounded = false;
+}
 
 function decreasePlayerMomentum() {
   if (!player.walking && player.momentum >= 0) {
