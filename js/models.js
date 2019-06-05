@@ -31,17 +31,17 @@ class Player extends Sprite {
 
     collidables.forEach((collidable) => {
       var playerOnBlock =
-      Resolver.bottom(player) >= Resolver.top(collidable) &&
-        (
+        Resolver.bottom(player) >= Resolver.top(collidable) && // TODO BUG check that player is beneath the top of a block too
           (
-            Resolver.left(player) > Resolver.left(collidable) &&
-            Resolver.left(player) < Resolver.right(collidable)
-          ) ||
-          (
-            Resolver.right(player) < Resolver.right(collidable) &&
-            Resolver.right(player) > Resolver.left(collidable)
+            (
+              Resolver.left(player) > Resolver.left(collidable) &&
+              Resolver.left(player) < Resolver.right(collidable)
+            ) ||
+            (
+              Resolver.right(player) < Resolver.right(collidable) &&
+              Resolver.right(player) > Resolver.left(collidable)
+            )
           )
-        )
 
       if (playerOnBlock) {
         blockStoodOn = collidable;
