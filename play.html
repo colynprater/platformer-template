@@ -113,13 +113,13 @@ function initFloor() {
     colour: 'pink'
   }))
 
-  // collidables.push(new Collidable({
-  //   x: (canvas.width / 2) + 60,
-  //   y: (canvas.height / 6) * 4,
-  //   width: 100,
-  //   height: 50,
-  //   colour: 'green'
-  // }))
+  collidables.push(new Collidable({
+    x: (canvas.width / 2) + 30,
+    y: (canvas.height / 6) * 4,
+    width: 100,
+    height: 50,
+    colour: 'green'
+  }))
 }
 
 function movePlayer() {
@@ -137,27 +137,17 @@ function increasePlayerPlummet() {
 }
 
 function groundPlayer() {
-  collidables.forEach((collidable) => {
-    var playerIsOnBlock =
-      Resolver.bottom(player) >= Resolver.top(collidable) &&
-      (
-        (
-          Resolver.left(player) > Resolver.left(collidable) &&
-          Resolver.left(player) < Resolver.right(collidable)
-        ) ||
-        (
-          Resolver.right(player) < Resolver.right(collidable) &&
-          Resolver.right(player) > Resolver.left(collidable)
-        )
-      )
+  var blockStoodOn = player.blockAtPlayerBottom(collidables)
 
-    if (playerIsOnBlock) {
-      player.y = Resolver.top(collidable) - player.height / 2;
-      player.plummet = 0;
-      player.grounded = true;
-    }
-  })
+  if (blockStoodOn) {
+    player.y = Resolver.top(blockStoodOn) - player.height / 2;
+    player.plummet = 0;
+    player.grounded = true;
+  }
 }
+
+// function dropPlayer() {
+// }
 
 function decreasePlayerMomentum() {
   if (!player.walking && player.momentum >= 0) {
