@@ -54,7 +54,7 @@ class Player extends Sprite {
   // functions
 }
 
-class Block { // does this need to be a class?
+class Collidable { // does this need to be a class?
 
   constructor(options) {
     this.x      = options.x || 0;
@@ -66,8 +66,9 @@ class Block { // does this need to be a class?
 
 }
 
-var floor = new Block({});
+var floor = new Collidable({});
 var player = new Player({x: 0, y: 0});
+var collidables = [];
 
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
@@ -143,15 +144,17 @@ function update() {
 function drawEverything() {
   colourRect(0, 0, canvas.width, canvas.height, 'black') // Background
   drawPlayer();
-  drawFloor();
+  drawCollidables();
 }
 
 function initializeFloor() {
-  floor.x = 0;
-  floor.y = (canvas.height / 6) * 5;
-  floor.width = canvas.width;
-  floor.height = canvas.height / 6;
-  floor.colour = 'pink';
+  collidables.push({
+    x: 0,
+    y: (canvas.height / 6) * 5,
+    width: canvas.width,
+    height: canvas.height / 6,
+    colour: 'pink'
+  })
 }
 
 function movePlayer() {
@@ -164,18 +167,18 @@ function movePlayer() {
   }
 }
 
-function increasePlayerPlummet() { // CALL
+function increasePlayerPlummet() {
   if (!player.grounded && player.plummet <= TERMINAL_VELOCITY) player.plummet++;
 }
 
 function groundPlayer() {
-  // TODO extend this to all Collidables
-  // (make the floor a collidable, add to an array: collidables, loop through them)
-  if (Resolver.bottom(player) > floor.y) {
-    player.y = floor.y - player.height / 2;
-    player.plummet = 0;
-    player.grounded = true;
-  }
+  collidables.forEach((collidable) => {
+    if (Resolver.bottom(player) > collidable.y) {
+      player.y = collidable.y - player.height / 2;
+      player.plummet = 0;
+      player.grounded = true;
+    }
+  })
 }
 
 function decreasePlayerMomentum() {
@@ -200,11 +203,18 @@ function initializePlayer() {
   player.colour = 'blue';
 }
 
-function drawFloor() {
-  colourRect(floor.x, floor.y, floor.width, floor.height, floor.colour)
+function drawCollidables() {
+  collidables.forEach((collidable) => {
+    colourRect(
+      collidable.x,
+      collidable.y,
+      collidable.width,
+      collidable.height,
+      collidable.colour
+    )
+  })
 }
 function drawPlayer() {
-
   colourRect(
     player.x - player.width / 2,
     player.y - player.height / 2,
