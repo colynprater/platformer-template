@@ -76,6 +76,19 @@ function keyDownListener(evt) {
   }
 }
 
+function collideHorizontally() {
+  var blockOnLeft  = blockAtObjLeft(player, collidables)
+  var blockOnRight = blockAtObjRight(player, collidables)
+
+  if (blockOnLeft) {
+    player.momentum = 0;
+    player.x = Resolver.right(blockOnLeft) + (PLAYER_WIDTH / 2) + 2
+  } else if (blockOnRight) {
+    player.momentum = 0;
+    player.x = Resolver.left(blockOnRight) - (PLAYER_WIDTH / 2) - 2
+  }
+}
+
 function reversePlayerDirectionAndMomentum(keyCode) {
   var desiredDirection = keyCode == 39 ? 0 : 1;
   var needToTurnAround =
@@ -96,7 +109,7 @@ function update() {
   increasePlayerPlummet();
   groundPlayer();
   dropPlayer();
-  console.log(blockAtObjLeft(player, collidables))
+  collideHorizontally();
 }
 
 function drawEverything() {
