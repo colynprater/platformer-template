@@ -1,3 +1,20 @@
+function blockAtObjTop(obj1, objects) {
+  var objAbove = undefined;
+
+  objects.forEach((object) => {
+    var obj1HeadTouchingObject =
+      Resolver.top(obj1) - Resolver.bottom(object) <= 10    &&
+        Resolver.top(obj1) - Resolver.bottom(object) >= -10 &&
+        areVerticallyInline(obj1, object)
+
+    if (obj1HeadTouchingObject) {
+      objAbove = object;
+    }
+  })
+
+  return objAbove;
+}
+
 function blockAtObjBottom(obj1, objects) {
   var objStoodOn = undefined;
 
@@ -5,16 +22,7 @@ function blockAtObjBottom(obj1, objects) {
     var obj1IsOnObject =
       Resolver.bottom(obj1) - Resolver.top(object) <= 10    &&
         Resolver.bottom(obj1) - Resolver.top(object) >= -10 &&
-          (
-            (
-              Resolver.left(obj1) > Resolver.left(object) &&
-              Resolver.left(obj1) < Resolver.right(object)
-            ) ||
-            (
-              Resolver.right(obj1) < Resolver.right(object) &&
-              Resolver.right(obj1) > Resolver.left(object)
-            )
-          )
+        areVerticallyInline(obj1, object)
 
     if (obj1IsOnObject) {
       objStoodOn = object;
@@ -56,6 +64,19 @@ function blockAtObjLeft(obj, objects) {
   return blockAtRight;
 }
 
+function areVerticallyInline(obj1, obj2) {
+  return (
+    (
+      Resolver.left(obj1) > Resolver.left(obj2) &&
+      Resolver.left(obj1) < Resolver.right(obj2)
+    ) ||
+    (
+      Resolver.right(obj1) < Resolver.right(obj2) &&
+      Resolver.right(obj1) > Resolver.left(obj2)
+    )
+  )
+}
+
 function areHorizontallyInline(obj1, obj2) {
   return (
     Resolver.top(obj1) < Resolver.top(obj2) &&
@@ -66,7 +87,7 @@ function areHorizontallyInline(obj1, obj2) {
     Resolver.bottom(obj1) > Resolver.bottom(obj2)
   ) ||
   (
-    Resolver.top(obj1) > Resolver.top(obj2) &&
+    Resolver.top(obj1) > Resolver.top(obj2) && // TODO need this check?
     Resolver.bottom(obj1) < Resolver.bottom(obj2)
   )
 }

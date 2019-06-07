@@ -89,6 +89,15 @@ function collideHorizontally() {
   }
 }
 
+function collideVertically() {
+  var blockAbove = blockAtObjTop(player, collidables)
+
+  if (blockAbove) {
+    player.velocity = 0;
+    player.y = Resolver.bottom(blockAbove) + (PLAYER_HEIGHT / 2) + 2
+  }
+}
+
 function reversePlayerDirectionAndMomentum(keyCode) {
   var desiredDirection = keyCode == 39 ? 0 : 1;
   var needToTurnAround =
@@ -110,6 +119,7 @@ function update() {
   groundPlayer();
   dropPlayer();
   collideHorizontally();
+  collideVertically();
 }
 
 function drawEverything() {
@@ -129,9 +139,9 @@ function initFloor() {
 
   collidables.push(new Collidable({
     x: (canvas.width / 2) - 30,
-    y: (canvas.height / 6) * 4,
+    y: (canvas.height / 6) * 4.5,
     width: 100,
-    height: 50,
+    height: 40,
     colour: 'green'
   }))
 
@@ -145,6 +155,14 @@ function initFloor() {
 
   collidables.push(new Collidable({
     x: (canvas.width / 2) - 100,
+    y: (canvas.height / 6) * 5.5,
+    width: 100,
+    height: 50,
+    colour: 'green'
+  }))
+
+  collidables.push(new Collidable({
+    x: (canvas.width / 2) + 60,
     y: (canvas.height / 6) * 5.5,
     width: 100,
     height: 50,

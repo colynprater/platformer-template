@@ -26,7 +26,7 @@ class Player extends Sprite {
     this.grounded = false
   }
 
-  jump() {
+  jump() { // TODO needs to count up velocity so can do Mario style jump (hard to do with keyUp and keyDown?)
     if (player.grounded) {
       player.grounded = false;
       player.velocity = JUMP_POWER;
