@@ -9,6 +9,7 @@
 
 <script src="js/models.js"></script>
 <script src="js/resolver.js"></script>
+<script src="js/collisions.js"></script>
 <script src="js/utils.js"></script>
 <script>
 const PLAYER_WIDTH  = 20;
@@ -16,7 +17,7 @@ const PLAYER_HEIGHT = 35;
 const PLAYER_MAX_SPEED  = 6;
 const PLAYER_SLOW_RATE  = 0.2;
 const TERMINAL_VELOCITY = 25;
-  const JUMP_POWER        = 20;
+const JUMP_POWER        = 20;
 
 var wrapper = document.getElementById('wrapper')
 
@@ -154,7 +155,7 @@ function increasePlayerPlummet() {
 }
 
 function groundPlayer() {
-  var blockStoodOn = player.blockAtPlayerBottom(collidables)
+  var blockStoodOn = blockAtObjBottom(player, collidables)
 
   if (blockStoodOn) {
     player.y = Resolver.top(blockStoodOn) - player.height / 2;
@@ -164,7 +165,7 @@ function groundPlayer() {
 }
 
 function dropPlayer() {
-  if (!player.blockAtPlayerBottom(collidables)) player.grounded = false;
+  if (!blockAtObjBottom(player, collidables)) player.grounded = false;
 }
 
 function decreasePlayerMomentum() {

@@ -33,32 +33,6 @@ class Player extends Sprite {
       player.plummet  = 0;
     }
   }
-
-  blockAtPlayerBottom(collidables) {
-    var blockStoodOn = undefined;
-
-    collidables.forEach((collidable) => {
-      var playerOnBlock =
-      Resolver.bottom(player) - Resolver.top(collidable) <= 10    &&
-        Resolver.bottom(player) - Resolver.top(collidable) >= -10 &&
-          (
-            (
-              Resolver.left(player) > Resolver.left(collidable) &&
-              Resolver.left(player) < Resolver.right(collidable)
-            ) ||
-            (
-              Resolver.right(player) < Resolver.right(collidable) &&
-              Resolver.right(player) > Resolver.left(collidable)
-            )
-          )
-
-      if (playerOnBlock) {
-        blockStoodOn = collidable;
-      }
-    })
-
-    return blockStoodOn;
-  }
 }
 
 class Collidable {
