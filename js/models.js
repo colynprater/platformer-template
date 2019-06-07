@@ -26,6 +26,14 @@ class Player extends Sprite {
     this.grounded = false
   }
 
+  jump() {
+    if (player.grounded) {
+      player.grounded = false;
+      player.velocity = JUMP_POWER;
+      player.plummet  = 0;
+    }
+  }
+
   blockAtPlayerBottom(collidables) {
     var blockStoodOn = undefined;
 
