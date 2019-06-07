@@ -5,6 +5,7 @@ class Sprite {
     this.direction = opts.direction || 0 // 0 is left, 1 is right
     this.width     = opts.width     || 10
     this.height    = opts.height    || 10
+    this.walking   = opts.walking   || false
   }
 
   facingLeft() {
@@ -22,7 +23,6 @@ class Player extends Sprite {
     this.momentum = opts.momentum || 0
     this.velocity = opts.velocity || 0
     this.plummet  = opts.plummet  || 3
-    this.walking  = opts.walking  || false
     this.grounded = false
   }
 
@@ -31,7 +31,8 @@ class Player extends Sprite {
 
     collidables.forEach((collidable) => {
       var playerOnBlock =
-        Resolver.bottom(player) >= Resolver.top(collidable) && // TODO BUG check that player is beneath the top of a block too
+      Resolver.bottom(player) - Resolver.top(collidable) <= 10    &&
+        Resolver.bottom(player) - Resolver.top(collidable) >= -10 &&
           (
             (
               Resolver.left(player) > Resolver.left(collidable) &&
