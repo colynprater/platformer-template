@@ -24,20 +24,35 @@ function blockAtObjBottom(obj1, objects) {
   return objStoodOn;
 }
 
-function blockAtObjRight(obj1, objects) {
+function blockAtObjRight(obj, objects) {
   var blockAtRight = undefined;
 
   objects.forEach((collidable) => {
     var obj1RightAgainstBlock =
-    Resolver.right(obj1) - Resolver.left(collidable) < 3    &&
-      Resolver.right(obj1) - Resolver.left(collidable) > -3 &&
-      areHorizontallyInline(obj1, collidable)
+    Resolver.right(obj) - Resolver.left(collidable) < 3    &&
+      Resolver.right(obj) - Resolver.left(collidable) > -3 &&
+      areHorizontallyInline(obj, collidable)
 
     if (obj1RightAgainstBlock) {
       blockAtRight = collidable;
     }
   })
+  return blockAtRight;
+}
 
+function blockAtObjLeft(obj, objects) {
+  var blockAtRight = undefined;
+
+  objects.forEach((collidable) => {
+    var obj1RightAgainstBlock =
+    Resolver.right(collidable) - Resolver.left(obj) < 3    &&
+      Resolver.right(collidable) - Resolver.left(obj) > -3 &&
+      areHorizontallyInline(obj, collidable)
+
+    if (obj1RightAgainstBlock) {
+      blockAtRight = collidable;
+    }
+  })
   return blockAtRight;
 }
 
