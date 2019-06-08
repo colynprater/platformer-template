@@ -1,6 +1,7 @@
 function update() {
   decreasePlayerMomentum();
-  movePlayer();
+  moveEverythingHorizontally();
+  movePlayerVertically();
   expireJump();
   increasePlayerPlummet();
   groundPlayer();
@@ -22,14 +23,17 @@ function decreasePlayerMomentum() {
   if (player.momentum < 0) player.momentum = 0;
 }
 
-function movePlayer() {
-  if (player.momentum) {
-    player.x += player.facingLeft() ? player.momentum : -player.momentum;
-  }
+function movePlayerVertically() {
   if (player.jumping) {
     player.y -= (JUMP_POWER * 1.5) - player.plummet;
   }
   if (!player.grounded) player.y += player.plummet;
+}
+
+function moveEverythingHorizontally() {
+  if (player.momentum) {
+    player.x += player.facingLeft() ? player.momentum : -player.momentum;
+  }
 }
 
 function expireJump() {
