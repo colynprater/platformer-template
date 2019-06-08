@@ -87,7 +87,7 @@ function areHorizontallyInline(obj1, obj2) {
     Resolver.bottom(obj1) > Resolver.bottom(obj2)
   ) ||
   (
-    Resolver.top(obj1) > Resolver.top(obj2) && // TODO need this check?
+    Resolver.top(obj1) > Resolver.top(obj2) && // TODO is this working?
     Resolver.bottom(obj1) < Resolver.bottom(obj2)
   )
 }

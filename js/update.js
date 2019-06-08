@@ -1,6 +1,6 @@
 function update() {
   decreasePlayerMomentum();
-  moveEverythingHorizontally();
+  makeHorizontalMovements();
   movePlayerVertically();
   expireJump();
   increasePlayerPlummet();
@@ -9,9 +9,11 @@ function update() {
   collideHorizontally();
   collideVertically();
   toggleScreenScroll();
+  console.log(player.momentum)
 }
 
 function toggleScreenScroll() {
+  // TODO toggle when player reaches edge of level
   screenScroll = !player.inCentreOfScreen();
 }
 
@@ -30,10 +32,20 @@ function movePlayerVertically() {
   if (!player.grounded) player.y += player.plummet;
 }
 
-function moveEverythingHorizontally() {
-  if (player.momentum) {
+function makeHorizontalMovements() {
+  if (screenScroll && player.momentum > 0) { // TODO bug:this check isn't working
+    // move everything else
+    moveEverythingButPlayerHorizontally();
+  } else if (player.momentum > 0) {
     player.x += player.facingLeft() ? player.momentum : -player.momentum;
   }
+}
+
+function moveEverythingButPlayerHorizontally() {
+  // TODO add all objects except player to the following array
+  collidables.forEach((object) => {
+    object.x -= player.facingLeft() ? player.momentum : -player.momentum;
+  })
 }
 
 function expireJump() {

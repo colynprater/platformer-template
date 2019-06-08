@@ -26,17 +26,9 @@ function initCollidables() {
 
     new Collidable({
       x: (canvas.width / 6) + 1060,
-      y: (canvas.height / 6) * 5,
-      width: 500,
-      height: 50,
-      colour: 'purple'
-    }),
-
-    new Collidable({
-      x: (canvas.width / 6) + 1560,
-      y: (canvas.height / 6) * 5,
-      width: 500,
-      height: 50,
+      y: ((canvas.height / 6) * 5) - 45,
+      width: 700,
+      height: 100,
       colour: 'green'
     })
   )
