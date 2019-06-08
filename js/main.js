@@ -18,22 +18,5 @@ window.onload = function() {
   setInterval(function() {
     update();
     draw();
-  }, 1000/FRAMES_PER_SECOND)
-}
-
-function update() {
-  decreasePlayerMomentum();
-  movePlayer();
-  expireJump();
-  increasePlayerPlummet();
-  groundPlayer();
-  dropPlayer();
-  collideHorizontally();
-  collideVertically();
-}
-
-function draw() {
-  colourRect(0, 0, canvas.width, canvas.height, 'black') // Background
-  drawPlayer();
-  drawCollidables();
+  }, 1000 / FRAMES_PER_SECOND)
 }

@@ -1,3 +1,14 @@
+function update() {
+  decreasePlayerMomentum();
+  movePlayer();
+  expireJump();
+  increasePlayerPlummet();
+  groundPlayer();
+  beginPlayerPlummet();
+  collideHorizontally();
+  collideVertically();
+}
+
 function decreasePlayerMomentum() {
   if (!player.walking && player.momentum >= 0 && player.grounded) {
     if (player.grounded) player.momentum -= PLAYER_SLOW_RATE;
@@ -25,6 +36,10 @@ function expireJump() {
   }
 }
 
+function beginPlayerPlummet() {
+  if (!blockAtObjBottom(player, collidables)) player.grounded = false;
+}
+
 function increasePlayerPlummet() {
   if (!player.grounded && player.plummet <= TERMINAL_VELOCITY) player.plummet += GRAVITY;
 }
@@ -42,20 +57,16 @@ function groundPlayer() {
   }
 }
 
-function dropPlayer() {
-  if (!blockAtObjBottom(player, collidables)) player.grounded = false;
-}
-
 function collideHorizontally() {
   var blockOnLeft  = blockAtObjLeft(player, collidables)
   var blockOnRight = blockAtObjRight(player, collidables)
 
   if (blockOnLeft) {
     player.momentum = 0;
-    player.x = Resolver.right(blockOnLeft) + (PLAYER_WIDTH / 2) + 2
+    player.x = Resolver.right(blockOnLeft) + (PLAYER_WIDTH / 2) + 2;
   } else if (blockOnRight) {
     player.momentum = 0;
-    player.x = Resolver.left(blockOnRight) - (PLAYER_WIDTH / 2) - 2
+    player.x = Resolver.left(blockOnRight) - (PLAYER_WIDTH / 2) - 2;
   }
 }
 
@@ -63,7 +74,7 @@ function collideVertically() {
   var blockAbove = blockAtObjTop(player, collidables)
 
   if (blockAbove) {
-    player.y = Resolver.bottom(blockAbove) + (PLAYER_HEIGHT / 2) + 2
+    player.y = Resolver.bottom(blockAbove) + (PLAYER_HEIGHT / 2) + 2;
     player.jumping = false;
   }
 }

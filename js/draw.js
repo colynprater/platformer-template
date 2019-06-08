@@ -1,3 +1,9 @@
+function draw() {
+  colourRect(0, 0, canvas.width, canvas.height, 'black') // Background
+  drawPlayer();
+  drawCollidables();
+}
+
 function drawCollidables() {
   collidables.forEach((collidable) => {
     colourRect(
