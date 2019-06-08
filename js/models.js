@@ -21,7 +21,6 @@ class Player extends Sprite {
   constructor(opts) {
     super(opts)
     this.momentum    = opts.momentum || 0;
-    this.velocity    = opts.velocity || 0; // TODO can remove this?
     this.plummet     = opts.plummet  || 3;
     this.grounded    = false;
     this.jumping     = false;
@@ -32,7 +31,6 @@ class Player extends Sprite {
     if ((player.grounded || player.jumping) && player.jumpCountUp <= JUMP_POWER) {
       player.jumping = true;
       player.grounded = false;
-      player.velocity = JUMP_POWER;
       player.plummet  = 0;
     }
   }

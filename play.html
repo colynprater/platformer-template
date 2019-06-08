@@ -20,7 +20,7 @@ const PLAYER_ACCEL      = 2;
 const PLAYER_SLOW_RATE  = 0.75;
 const TERMINAL_VELOCITY = 25;
 const GRAVITY           = 0.75;
-const JUMP_POWER        = 11;
+const JUMP_POWER        = 11.5;
 
 var wrapper = document.getElementById('wrapper')
 
@@ -99,7 +99,6 @@ function collideVertically() {
   var blockAbove = blockAtObjTop(player, collidables)
 
   if (blockAbove) {
-    player.velocity = 0;
     player.y = Resolver.bottom(blockAbove) + (PLAYER_HEIGHT / 2) + 2
     player.jumping = false;
   }
@@ -163,7 +162,7 @@ function initCollidables() {
 
   collidables.push(new Collidable({
     x: (canvas.width / 2) + 20,
-    y: (canvas.height / 3) + 30,
+    y: (canvas.height / 3) + 60,
     width: 100,
     height: 20,
     colour: 'purple'
@@ -190,7 +189,6 @@ function movePlayer() {
   if (player.momentum) {
     player.x += player.facingLeft() ? player.momentum : -player.momentum;
   }
-
   if (player.jumping) player.y -= JUMP_POWER * 1.5;
   if (!player.grounded) player.y += player.plummet;
 }
@@ -200,20 +198,17 @@ function expireJump() {
 
   if (player.jumpCountUp >= JUMP_POWER) {
     player.jumping = false;
-    player.velocity = 0;
     player.jumpCountUp = 0;
   }
 }
 
 function increasePlayerPlummet() {
-  player.velocity--;
-  if (player.velocity < 1) player.velocity = 0;
   if (!player.grounded && player.plummet <= TERMINAL_VELOCITY) player.plummet += GRAVITY;
 }
 
 function groundPlayer() {
   var blockStoodOn = blockAtObjBottom(player, collidables)
-  var playerFalling = player.velocity < player.plummet;
+  var playerFalling = !player.jumping < player.plummet;
 
   if (blockStoodOn && playerFalling) {
     player.y = Resolver.top(blockStoodOn) - player.height / 2;
