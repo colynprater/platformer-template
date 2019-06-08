@@ -189,7 +189,9 @@ function movePlayer() {
   if (player.momentum) {
     player.x += player.facingLeft() ? player.momentum : -player.momentum;
   }
-  if (player.jumping) player.y -= JUMP_POWER * 1.5;
+  if (player.jumping) {
+    player.y -= (JUMP_POWER * 1.5) - player.plummet;
+  }
   if (!player.grounded) player.y += player.plummet;
 }
 
