@@ -35,7 +35,7 @@ function makeHorizontalMovements() {
   var moveEverything =
     !blockAtObjRight(player, collidables) && !blockAtObjLeft(player, collidables)
 
-  if (moveEverything) {
+  if (moveEverything && screenScroll) {
     // move everything else
 
     moveEverythingButPlayerHorizontally();
