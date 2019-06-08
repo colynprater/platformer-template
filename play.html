@@ -22,20 +22,15 @@ var wrapper = document.getElementById('wrapper')
 
 var canvas;
 var ctx;
-
-var player;
-
 var player = new Player({x: 0, y: 0});
 var collidables = [];
 
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
-  ctx = canvas.getContext('2d');
+  ctx    = canvas.getContext('2d');
 
   initCollidables();
   initPlayer();
-
-  var framesPerSecond = 60;
 
   document.addEventListener('keydown', keyDownListener);
   document.addEventListener('keyup', keyUpListener);
@@ -43,7 +38,7 @@ window.onload = function() {
   setInterval(function() {
     update();
     draw();
-  }, 1000/framesPerSecond)
+  }, 1000/FRAMES_PER_SECOND)
 }
 
 function update() {

@@ -6,3 +6,4 @@ const PLAYER_SLOW_RATE  = 0.75;
 const TERMINAL_VELOCITY = 25;
 const GRAVITY           = 0.75;
 const JUMP_POWER        = 11.5;
+const FRAMES_PER_SECOND = 60;
