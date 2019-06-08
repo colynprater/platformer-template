@@ -35,3 +35,10 @@ function reversePlayerDirectionAndMomentum(keyCode) {
     increasePlayerMomentum();
   }
 }
+
+function increasePlayerMomentum() {
+  if (player.walking) {
+    player.momentum += PLAYER_MAX_SPEED - PLAYER_ACCEL;// TODO work out fluid acceleration alg
+  }
+  if (player.momentum > PLAYER_MAX_SPEED) player.momentum = PLAYER_MAX_SPEED;
+}

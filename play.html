@@ -12,6 +12,7 @@
 <script src="js/collisions.js"></script>
 <script src="js/update.js"></script>
 <script src="js/listeners.js"></script>
+<script src="js/draw.js"></script>
 <script src="js/utils.js"></script>
 
 <script>
@@ -119,40 +120,12 @@ function initCollidables() {
   }))
 }
 
-function increasePlayerMomentum() {
-  if (player.walking) {
-    player.momentum += PLAYER_MAX_SPEED - PLAYER_ACCEL;// TODO work out fluid acceleration alg
-  }
-  if (player.momentum > PLAYER_MAX_SPEED) player.momentum = PLAYER_MAX_SPEED;
-}
-
 function initPlayer() {
   player.x = 450;
   player.y = (canvas.height / 6) * 1;
   player.width = PLAYER_WIDTH;
   player.height = PLAYER_HEIGHT;
   player.colour = 'blue';
-}
-
-function drawCollidables() {
-  collidables.forEach((collidable) => {
-    colourRect(
-      collidable.x - collidable.width / 2,
-      collidable.y - collidable.height / 2,
-      collidable.width,
-      collidable.height,
-      collidable.colour
-    )
-  })
-}
-function drawPlayer() {
-  colourRect(
-    player.x - player.width / 2,
-    player.y - player.height / 2,
-    player.width,
-    player.height,
-    player.colour
-  )
 }
 
 </script>
