@@ -56,10 +56,7 @@ function keyUpListener(evt) {
   if (keyCode == 16) { // shift key
     player.jumping = false;
   }
-  if (keyCode == 37) { // left arrow key
-    player.walking = false;
-  }
-  if (keyCode == 39) { // right arrow key
+  if (keyCode == 37 || keyCode == 39) { // left arrow key
     player.walking = false;
   }
 }
@@ -71,12 +68,7 @@ function keyDownListener(evt) {
     player.jump()
   }
 
-  if (keyCode == 37) { // left arrow key
-    player.walking = true;
-    reversePlayerDirectionAndMomentum(keyCode)
-  }
-
-  if (keyCode == 39) { // right arrow key
+  if (keyCode == 37 || keyCode == 39) { // left and right arrow keys
     player.walking = true;
     reversePlayerDirectionAndMomentum(keyCode)
   }
