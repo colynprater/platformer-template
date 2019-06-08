@@ -1,5 +1,5 @@
 function draw() {
-  colourRect(0, 0, canvas.width, canvas.height, 'black') // Background
+  colourRect(0, 0, canvas.width, canvas.height, 'white') // Background
   drawPlayer();
   drawCollidables();
 }

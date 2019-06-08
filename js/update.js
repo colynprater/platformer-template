@@ -9,7 +9,6 @@ function update() {
   collideHorizontally();
   collideVertically();
   toggleScreenScroll();
-  console.log(player.momentum)
 }
 
 function toggleScreenScroll() {
@@ -33,8 +32,12 @@ function movePlayerVertically() {
 }
 
 function makeHorizontalMovements() {
-  if (screenScroll && player.momentum > 0) { // TODO bug:this check isn't working
+  var moveEverything =
+    !blockAtObjRight(player, collidables) && !blockAtObjLeft(player, collidables)
+
+  if (moveEverything) {
     // move everything else
+
     moveEverythingButPlayerHorizontally();
   } else if (player.momentum > 0) {
     player.x += player.facingLeft() ? player.momentum : -player.momentum;

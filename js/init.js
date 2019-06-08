@@ -9,19 +9,27 @@ function initCollidables() {
     }),
 
     new Collidable({
+      x: 0,
+      y: ((canvas.height / 6) * 5) - 45,
+      width: 700,
+      height: 100,
+      colour: 'green'
+    }),
+
+    new Collidable({
       x: (canvas.width / 6) + 10,
       y: (canvas.height / 6) * 5,
       width: 500,
       height: 50,
-      colour: 'pink'
+      colour: 'green'
     }),
 
     new Collidable({
-      x: (canvas.width / 6) + 530,
+      x: (canvas.width / 6) + 590,
       y: (canvas.height / 6) * 5,
       width: 500,
       height: 50,
-      colour: 'red'
+      colour: 'green'
     }),
 
     new Collidable({
