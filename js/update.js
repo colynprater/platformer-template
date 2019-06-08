@@ -31,7 +31,7 @@ function increasePlayerPlummet() {
 
 function groundPlayer() {
   var blockStoodOn = blockAtObjBottom(player, collidables)
-  var playerFalling = !player.jumping < player.plummet;
+  var playerFalling = !player.jumping;
 
   if (blockStoodOn && playerFalling) {
     player.y = Resolver.top(blockStoodOn) - player.height / 2;

@@ -1,78 +1,23 @@
-<html>
+<!doctype html>
 
-<body>
-  <div id="wrapper">
-    <canvas id="gameCanvas" width="1400", height="800"></canvas>
-  </div>
+<html lang="en">
+  <head>
+    <script src="js/models.js"></script>
+    <script src="js/resolver.js"></script>
+    <script src="js/collisions.js"></script>
+    <script src="js/update.js"></script>
+    <script src="js/listeners.js"></script>
+    <script src="js/draw.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
 
-</body>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+  <head>
 
-<script src="js/models.js"></script>
-<script src="js/resolver.js"></script>
-<script src="js/collisions.js"></script>
-<script src="js/update.js"></script>
-<script src="js/listeners.js"></script>
-<script src="js/draw.js"></script>
-<script src="js/init.js"></script>
-<script src="js/config.js"></script>
-<script src="js/utils.js"></script>
+  <body>
+    <canvas id="gameCanvas" width="1400" height="800"></canvas>
+  </body>
 
-<script>
-var wrapper = document.getElementById('wrapper')
-
-var canvas;
-var ctx;
-var player = new Player({x: 0, y: 0});
-var collidables = [];
-
-window.onload = function() {
-  canvas = document.getElementById('gameCanvas');
-  ctx    = canvas.getContext('2d');
-
-  initCollidables();
-  initPlayer();
-
-  document.addEventListener('keydown', keyDownListener);
-  document.addEventListener('keyup', keyUpListener);
-
-  setInterval(function() {
-    update();
-    draw();
-  }, 1000/FRAMES_PER_SECOND)
-}
-
-function update() {
-  decreasePlayerMomentum();
-  movePlayer();
-  expireJump();
-  increasePlayerPlummet();
-  groundPlayer();
-  dropPlayer();
-  collideHorizontally();
-  collideVertically();
-}
-
-function draw() {
-  colourRect(0, 0, canvas.width, canvas.height, 'black') // Background
-  drawPlayer();
-  drawCollidables();
-}
-
-</script>
-
-<style>
-  body {
-    color: white;
-    text-align: center;
-    background-color: black;
-  }
-  canvas {
-    margin: 12px;
-    border-style: solid;
-    border-color: white;
-  }
-  #wrapper {
-
-  }
-</style>
 </html>
