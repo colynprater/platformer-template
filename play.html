@@ -19,8 +19,8 @@ const PLAYER_MAX_SPEED  = 6;
 const PLAYER_ACCEL      = 2;
 const PLAYER_SLOW_RATE  = 0.75;
 const TERMINAL_VELOCITY = 25;
-const JUMP_POWER        = 20;
 const GRAVITY           = 0.75;
+const JUMP_POWER        = 11;
 
 var wrapper = document.getElementById('wrapper')
 
@@ -36,7 +36,7 @@ window.onload = function() {
   canvas = document.getElementById('gameCanvas');
   ctx = canvas.getContext('2d');
 
-  initFloor();
+  initCollidables();
   initPlayer();
 
   var framesPerSecond = 60;
@@ -53,6 +53,9 @@ window.onload = function() {
 function keyUpListener(evt) {
   var keyCode = evt.keyCode;
 
+  if (keyCode == 16) { // shift key
+    player.jumping = false;
+  }
   if (keyCode == 37) { // left arrow key
     player.walking = false;
   }
@@ -98,6 +101,7 @@ function collideVertically() {
   if (blockAbove) {
     player.velocity = 0;
     player.y = Resolver.bottom(blockAbove) + (PLAYER_HEIGHT / 2) + 2
+    player.jumping = false;
   }
 }
 
@@ -118,6 +122,7 @@ function reversePlayerDirectionAndMomentum(keyCode) {
 function update() {
   decreasePlayerMomentum();
   movePlayer();
+  expireJump();
   increasePlayerPlummet();
   groundPlayer();
   dropPlayer();
@@ -131,21 +136,13 @@ function drawEverything() {
   drawCollidables();
 }
 
-function initFloor() {
-  // collidables.push(new Collidable({
-  //   x: canvas.width,
-  //   y: canvas.height,
-  //   width: canvas.width * 2,
-  //   height: (canvas.height / 6),
-  //   colour: 'pink'
-  // }))
-
+function initCollidables() {
   collidables.push(new Collidable({
     x: (canvas.width / 6),
     y: (canvas.height / 6) * 2,
     width: 100,
     height: 50,
-    colour: 'green'
+    colour: 'red'
   }))
 
   collidables.push(new Collidable({
@@ -161,23 +158,23 @@ function initFloor() {
     y: (canvas.height / 2),
     width: 100,
     height: 50,
-    colour: 'green'
+    colour: 'white'
   }))
 
   collidables.push(new Collidable({
     x: (canvas.width / 2) + 20,
-    y: (canvas.height / 3),
+    y: (canvas.height / 3) + 30,
     width: 100,
-    height: 50,
-    colour: 'green'
+    height: 20,
+    colour: 'purple'
   }))
 
   collidables.push(new Collidable({
     x: (canvas.width / 2) + 150,
     y: (canvas.height / 5) * 3,
-    width: 200,
+    width: 280,
     height: 20,
-    colour: 'green'
+    colour: 'yellow'
   }))
 
   collidables.push(new Collidable({
@@ -185,7 +182,7 @@ function initFloor() {
     y: (canvas.height / 5) * 2.5,
     width: 100,
     height: 20,
-    colour: 'green'
+    colour: 'brown'
   }))
 }
 
@@ -194,8 +191,17 @@ function movePlayer() {
     player.x += player.facingLeft() ? player.momentum : -player.momentum;
   }
 
-  if (!player.grounded) {
-    player.y += player.plummet - player.velocity;
+  if (player.jumping) player.y -= JUMP_POWER * 1.5;
+  if (!player.grounded) player.y += player.plummet;
+}
+
+function expireJump() {
+  if (player.jumping) player.jumpCountUp++;
+
+  if (player.jumpCountUp >= JUMP_POWER) {
+    player.jumping = false;
+    player.velocity = 0;
+    player.jumpCountUp = 0;
   }
 }
 
@@ -213,6 +219,8 @@ function groundPlayer() {
     player.y = Resolver.top(blockStoodOn) - player.height / 2;
     player.plummet = 0;
     player.grounded = true;
+    player.jumping = false;
+    player.jumpCountUp = 0;
   }
 }
 
@@ -236,7 +244,7 @@ function increasePlayerMomentum() {
 }
 
 function initPlayer() {
-  player.x = canvas.width / 7;
+  player.x = 450;
   player.y = (canvas.height / 6) * 1;
   player.width = PLAYER_WIDTH;
   player.height = PLAYER_HEIGHT;
@@ -252,7 +260,6 @@ function drawCollidables() {
       collidable.height,
       collidable.colour
     )
-    drawDebugDots(collidable)
   })
 }
 function drawPlayer() {
@@ -263,8 +270,6 @@ function drawPlayer() {
     player.height,
     player.colour
   )
-
-  drawDebugDots(player)
 }
 
 </script>
