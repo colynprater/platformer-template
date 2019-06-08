@@ -20,8 +20,8 @@ function blockAtObjBottom(obj1, objects) {
 
   objects.forEach((object) => {
     var obj1IsOnObject =
-      Resolver.bottom(obj1) - Resolver.top(object) <= 10    &&
-        Resolver.bottom(obj1) - Resolver.top(object) >= -10 &&
+      Resolver.bottom(obj1) - Resolver.top(object) <= 15    &&
+        Resolver.bottom(obj1) - Resolver.top(object) >= -15 &&
         areVerticallyInline(obj1, object)
 
     if (obj1IsOnObject) {
