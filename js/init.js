@@ -1,53 +1,50 @@
 function initCollidables() {
   collidables.push(
     new Collidable({
-      x: (canvas.width / 6),
-      y: (canvas.height / 6) * 2,
-      width: 100,
-      height: 50,
-      colour: 'red'
-    }),
-    new Collidable({
-      x: 450,
-      y: (canvas.height / 2) + 40,
-      width: 100,
+      x: -500,
+      y: (canvas.height / 6) * 5,
+      width: 500,
       height: 50,
       colour: 'green'
     }),
+
     new Collidable({
-      x: (canvas.width / 2) - 150,
-      y: (canvas.height / 2),
-      width: 100,
+      x: (canvas.width / 6) + 10,
+      y: (canvas.height / 6) * 5,
+      width: 500,
       height: 50,
-      colour: 'white'
+      colour: 'pink'
     }),
+
     new Collidable({
-      x: (canvas.width / 2) + 20,
-      y: (canvas.height / 3) + 60,
-      width: 100,
-      height: 20,
+      x: (canvas.width / 6) + 530,
+      y: (canvas.height / 6) * 5,
+      width: 500,
+      height: 50,
+      colour: 'red'
+    }),
+
+    new Collidable({
+      x: (canvas.width / 6) + 1060,
+      y: (canvas.height / 6) * 5,
+      width: 500,
+      height: 50,
       colour: 'purple'
     }),
+
     new Collidable({
-      x: (canvas.width / 2) + 150,
-      y: (canvas.height / 5) * 3,
-      width: 280,
-      height: 20,
-      colour: 'yellow'
-    }),
-    new Collidable({
-      x: (canvas.width / 2) + 400,
-      y: (canvas.height / 5) * 2.5,
-      width: 100,
-      height: 20,
-      colour: 'brown'
+      x: (canvas.width / 6) + 1560,
+      y: (canvas.height / 6) * 5,
+      width: 500,
+      height: 50,
+      colour: 'green'
     })
   )
 }
 
 function initPlayer() {
-  player.x      = 450;
-  player.y      = (canvas.height / 6) * 1;
+  player.x      = canvas.width / 2;
+  player.y      = (canvas.height / 6) * 4;
   player.width  = PLAYER_WIDTH;
   player.height = PLAYER_HEIGHT;
   player.colour = 'blue';

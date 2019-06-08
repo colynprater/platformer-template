@@ -4,6 +4,7 @@ var canvas;
 var ctx;
 var player = new Player({x: 0, y: 0});
 var collidables = [];
+var screenScroll = false;
 
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');

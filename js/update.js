@@ -7,6 +7,11 @@ function update() {
   beginPlayerPlummet();
   collideHorizontally();
   collideVertically();
+  toggleScreenScroll();
+}
+
+function toggleScreenScroll() {
+  screenScroll = !player.inCentreOfScreen();
 }
 
 function decreasePlayerMomentum() {

@@ -34,6 +34,10 @@ class Player extends Sprite {
       player.plummet  = 0;
     }
   }
+
+  inCentreOfScreen() {
+    return player.x < (canvas.width / 2) + 100 && player.x > (canvas.width / 2) - 100;
+  }
 }
 
 class Collidable {
